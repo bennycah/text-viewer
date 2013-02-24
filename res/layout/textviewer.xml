@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout
-        android:id="@+id/widget35"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-        <SeekBar
-                android:id="@+id/seekBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/scrollView"
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
-            <TextView android:id="@+id/textView"
-                      android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:textSize="18sp"
-                      android:autoLink="web"
-                      android:linksClickable="true"/>
-        </ScrollView>
-</TableLayout>
+        <TextView android:id="@+id/textView"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:textSize="18sp"
+                  android:autoLink="web"
+                  android:linksClickable="true"/>
+    </ScrollView>
+</LinearLayout>
