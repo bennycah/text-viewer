@@ -2,4 +2,5 @@
 <resources>
     <string name="appName">Text Viewer</string>
     <string name="cantOpen">Cannot open %s</string>
+    <string name="opening">Opening file...</string>
 </resources>
