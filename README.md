@@ -1,2 +1,2 @@
-text-viewer
+Simple text viewer for Android.
 ===========
