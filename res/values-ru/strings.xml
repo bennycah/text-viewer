@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cantOpen">Не могу открыть %s</string>
+    <string name="opening">Открываю файл...</string>
+</resources>
