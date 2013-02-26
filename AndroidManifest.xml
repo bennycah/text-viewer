@@ -7,7 +7,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application android:label="@string/appName">
         <activity android:name="TextViewer"
-                  android:label="@string/appName">
+                  android:label="@string/appName"
+                  android:icon="@drawable/icon">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <action android:name="android.intent.action.MAIN"/>
