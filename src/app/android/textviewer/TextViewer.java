@@ -7,11 +7,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
-import android.widget.EditText;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -56,7 +54,6 @@ public final class TextViewer extends Activity {
                 }
             }
         };
-
         openFile(getIntent());
     }
 
@@ -72,7 +69,7 @@ public final class TextViewer extends Activity {
             Uri uri = intent.getData();
             if (null != uri) {
                 final String path = uri.getPath();
-                Thread thread = new Thread() {
+                new Thread() {
                     @Override
                     public void run() {
                         handler.sendEmptyMessage(ACTION_SHOW_PROGRESS);
@@ -87,8 +84,7 @@ public final class TextViewer extends Activity {
                             showError(path);
                         }
                     }
-                };
-                thread.start();
+                }.start();
             }
         }
     }
