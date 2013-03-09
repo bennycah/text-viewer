@@ -23,6 +23,7 @@ public final class TextViewer extends Activity {
     private static final int ACTION_SHOW_PROGRESS = 0;
     private static final int ACTION_HIDE_PROGRESS = 1;
     private static final int ACTION_SET_CONTENT = 2;
+    private static final int ACTION_SHOW_ERROR = 3;
 
     //private Uri currentUri;
     private Handler handler;
@@ -49,6 +50,10 @@ public final class TextViewer extends Activity {
                     case ACTION_SET_CONTENT: {
                         String data[] = (String[])msg.obj;
                         updateView(data[0], data[1]);
+                    } break;
+                    case ACTION_SHOW_ERROR: {
+                        String path = (String)msg.obj;
+                        showError(path);
                     } break;
                 }
             }
@@ -80,7 +85,7 @@ public final class TextViewer extends Activity {
                             handler.sendEmptyMessage(ACTION_HIDE_PROGRESS);
                         } else {
                             handler.sendEmptyMessage(ACTION_HIDE_PROGRESS);
-                            showError(path);
+                            handler.sendMessage(handler.obtainMessage(ACTION_SHOW_ERROR, path));
                         }
                     }
                 }.start();
