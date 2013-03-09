@@ -61,12 +61,6 @@ public final class TextViewer extends Activity {
         openFile(getIntent());
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        finish();
-    }
-
     private void openFile(Intent intent) {
         String action = intent.getAction();
         if (Intent.ACTION_VIEW.equals(action)) {
