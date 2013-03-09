@@ -2,9 +2,7 @@
 bin
 gen
 out
-ant.properties
 build.xml
-local.properties
-proguard-project.txt
-project.properties
-text-viewer.iml
+*.properties
+*.iml
+*.apk
