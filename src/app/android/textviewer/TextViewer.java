@@ -39,9 +39,8 @@ public final class TextViewer extends Activity {
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case ACTION_SHOW_PROGRESS: {
-                        dialog = new ProgressDialog(TextViewer.this);
                         dialog.setTitle(R.string.appName);
-                        dialog.setMessage(getBaseContext().getString(R.string.opening));
+                        dialog.setMessage(getString(R.string.opening));
                         dialog.show();
                     } break;
                     case ACTION_HIDE_PROGRESS: {
@@ -112,17 +111,12 @@ public final class TextViewer extends Activity {
 
     private void updateView(String title, String text) {
         setTitle(title);
-        setText(text);
-    }
-
-    private void setText(String text) {
         TextView t = (TextView)findViewById(R.id.textView);
         t.setText(text);
     }
 
     private void showError(String path) {
-        String template = getBaseContext().getString(R.string.cantOpen);
-        String error = String.format(template, path);
+        String error = String.format(getString(R.string.cantOpen), path);
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 }
