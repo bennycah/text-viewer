@@ -3,7 +3,7 @@
           package="app.android.textviewer"
           android:versionCode="1"
           android:versionName="0.2">
-    <uses-sdk android:minSdkVersion="4"/>
+    <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="17"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application android:label="@string/appName">
         <activity android:name="TextViewer"
