@@ -4,15 +4,16 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent">
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/scrollView"
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:layout_weight="1">
+                android:layout_height="fill_parent">
         <TextView android:id="@+id/textView"
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
                   android:textSize="18sp"
                   android:autoLink="web"
-                  android:linksClickable="true"/>
+                  android:linksClickable="true"
+                  android:textColor="#FFFFFFFF"
+                  android:textColorLink="#FFADD8E6"/>
     </ScrollView>
 </LinearLayout>
