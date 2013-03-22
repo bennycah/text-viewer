@@ -3,10 +3,8 @@ package app.android.textviewer;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,70 +18,19 @@ import java.io.IOException;
  * @author esprit
  */
 public final class TextViewer extends Activity {
-    private static final int ACTION_SHOW_PROGRESS = 0;
-    private static final int ACTION_HIDE_PROGRESS = 1;
-    private static final int ACTION_SET_CONTENT = 2;
-    private static final int ACTION_SHOW_ERROR = 3;
-
-    //private Uri currentUri;
-    private Handler handler;
-
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.textviewer);
 
-        handler = new Handler() {
-            private ProgressDialog dialog = new ProgressDialog(TextViewer.this);
-
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case ACTION_SHOW_PROGRESS: {
-                        dialog.setTitle(R.string.appName);
-                        dialog.setMessage(getString(R.string.opening));
-                        dialog.show();
-                    } break;
-                    case ACTION_HIDE_PROGRESS: {
-                        dialog.dismiss();
-                    } break;
-                    case ACTION_SET_CONTENT: {
-                        String data[] = (String[])msg.obj;
-                        updateView(data[0], data[1]);
-                    } break;
-                    case ACTION_SHOW_ERROR: {
-                        String path = (String)msg.obj;
-                        showError(path);
-                    } break;
-                }
-            }
-        };
         openFile(getIntent());
     }
 
     private void openFile(Intent intent) {
         String action = intent.getAction();
         if (Intent.ACTION_VIEW.equals(action)) {
-            Uri uri = intent.getData();
-            if (null != uri) {
-                final String path = uri.getPath();
-                new Thread() {
-                    @Override
-                    public void run() {
-                        handler.sendEmptyMessage(ACTION_SHOW_PROGRESS);
-                        String content = getFileContent(path);
-                        if (null != content) {
-                            //currentUri = uri;
-                            String data[] = new String[]{path, content};
-                            handler.sendMessage(handler.obtainMessage(ACTION_SET_CONTENT, data));
-                            handler.sendEmptyMessage(ACTION_HIDE_PROGRESS);
-                        } else {
-                            handler.sendEmptyMessage(ACTION_HIDE_PROGRESS);
-                            handler.sendMessage(handler.obtainMessage(ACTION_SHOW_ERROR, path));
-                        }
-                    }
-                }.start();
-            }
+            String path = intent.getData().getPath();
+            new OpenFileTask().execute(path);
         }
     }
 
@@ -117,5 +64,35 @@ public final class TextViewer extends Activity {
     private void showError(String path) {
         String error = String.format(getString(R.string.cantOpen), path);
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    private class OpenFileTask extends AsyncTask<String, Void, String[]> {
+        private ProgressDialog dialog = new ProgressDialog(TextViewer.this);
+
+        @Override
+        protected String[] doInBackground(String ... param) {
+            String path = param[0];
+            String content = getFileContent(path);
+            return new String[]{path, content};
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setTitle(R.string.appName);
+            dialog.setMessage(getString(R.string.opening));
+            dialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(String[] param) {
+            String path = param[0];
+            String content = param[1];
+            if (null != content) {
+                updateView(path, content);
+            } else {
+                showError(path);
+            }
+            dialog.dismiss();
+        }
     }
 }
