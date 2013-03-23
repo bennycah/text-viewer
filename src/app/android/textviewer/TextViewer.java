@@ -50,27 +50,6 @@ public final class TextViewer extends Activity {
         }
     }
 
-    private String getFileContent(String path) {
-        if (null == path) {
-            return null;
-        }
-        File file = new File(path);
-        if (file.exists()) {
-            String str;
-            StringBuilder sb = new StringBuilder();
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(file));
-                while ((str = reader.readLine()) != null) {
-                    sb.append(str).append('\n');
-                }
-                reader.close();
-                return sb.toString();
-            } catch (IOException e) {
-            }
-        }
-        return null;
-    }
-
     private void updateView(String title, String text) {
         setTitle(title);
         TextView t = (TextView)findViewById(R.id.textView);
@@ -109,6 +88,27 @@ public final class TextViewer extends Activity {
                 showError(path);
             }
             dialog.dismiss();
+        }
+
+        private String getFileContent(String path) {
+            if (null == path) {
+                return null;
+            }
+            File file = new File(path);
+            if (file.exists()) {
+                String str;
+                StringBuilder sb = new StringBuilder();
+                try {
+                    BufferedReader reader = new BufferedReader(new FileReader(file));
+                    while ((str = reader.readLine()) != null) {
+                        sb.append(str).append('\n');
+                    }
+                    reader.close();
+                    return sb.toString();
+                } catch (IOException e) {
+                }
+            }
+            return null;
         }
     }
 }
