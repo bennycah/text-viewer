@@ -13,6 +13,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,16 +25,43 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- *
  * @author esprit
  */
 public final class TextViewer extends Activity {
+    private static final int SCROLL_UP = 1;
+    private static final int SCROLL_DOWN = 2;
+    private ScrollView scrollView;
+    private TextView textView;
+
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.textviewer);
 
+        scrollView = (ScrollView)findViewById(R.id.scroll_view);
+        textView = (TextView)findViewById(R.id.text_view);
+
         openFile(getIntent());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(Menu.NONE, SCROLL_UP, 0, R.string.scroll_to_top);
+        menu.add(Menu.NONE, SCROLL_DOWN, 0, R.string.scroll_to_bottom);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case SCROLL_UP:
+                scrollView.fullScroll(ScrollView.FOCUS_UP);
+                return true;
+            case SCROLL_DOWN:
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void openFile(Intent intent) {
@@ -44,12 +74,11 @@ public final class TextViewer extends Activity {
 
     private void updateView(String title, String text) {
         setTitle(title);
-        TextView t = (TextView)findViewById(R.id.textView);
-        t.setText(text);
+        textView.setText(text);
     }
 
     private void showError(String path) {
-        String error = String.format(getString(R.string.cantOpen), path);
+        String error = String.format(getString(R.string.cant_open), path);
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
@@ -57,7 +86,7 @@ public final class TextViewer extends Activity {
         private ProgressDialog dialog = new ProgressDialog(TextViewer.this);
 
         @Override
-        protected String[] doInBackground(String ... param) {
+        protected String[] doInBackground(String... param) {
             String path = param[0];
             String content = getFileContent(path);
             return new String[]{path, content};
@@ -65,7 +94,7 @@ public final class TextViewer extends Activity {
 
         @Override
         protected void onPreExecute() {
-            dialog.setTitle(R.string.appName);
+            dialog.setTitle(R.string.app_name);
             dialog.setMessage(getString(R.string.opening));
             dialog.show();
         }
