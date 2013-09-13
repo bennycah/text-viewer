@@ -123,7 +123,7 @@ public final class TextViewer extends Activity {
                     }
                     reader.close();
                     return sb.toString();
-                } catch (IOException e) {
+                } catch (IOException ignored) {
                 }
             }
             return null;
