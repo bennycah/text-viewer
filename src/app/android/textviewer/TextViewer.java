@@ -28,8 +28,6 @@ import java.io.IOException;
  * @author esprit
  */
 public final class TextViewer extends Activity {
-    private static final int SCROLL_UP = 1;
-    private static final int SCROLL_DOWN = 2;
     private ScrollView scrollView;
     private TextView textView;
 
@@ -46,18 +44,17 @@ public final class TextViewer extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(Menu.NONE, SCROLL_UP, 0, R.string.scroll_to_top);
-        menu.add(Menu.NONE, SCROLL_DOWN, 0, R.string.scroll_to_bottom);
+        getMenuInflater().inflate(R.menu.textviewer_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case SCROLL_UP:
+            case R.id.scroll_to_top:
                 scrollView.fullScroll(ScrollView.FOCUS_UP);
                 return true;
-            case SCROLL_DOWN:
+            case R.id.scroll_to_bottom:
                 scrollView.fullScroll(ScrollView.FOCUS_DOWN);
                 return true;
         }
